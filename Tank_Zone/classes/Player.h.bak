@@ -1,0 +1,103 @@
+
+class Player
+{
+private:
+	
+	int playerID = 1;
+	int color = 1;
+	float speed = 0.1;
+	float velocity = 0.0;
+	int rotate = 0;
+	SDL_Keycode Key_MoveUp = SDLK_w;
+	SDL_Keycode Key_MoveDown = SDLK_s;
+	SDL_Keycode Key_TurnRight = SDLK_d;
+	SDL_Keycode Key_TurnLeft = SDLK_a;
+	SDL_Keycode Key_Fire = SDLK_l;
+	
+	bool up = false;
+	bool down = false;
+	bool right = false;
+	bool left = false;
+	
+	
+	float x = 100;
+	float y = 100;
+	
+	int w = 20;
+	int h = 40;
+	
+	SDL_Rect rect = { x, y, w, h };
+public:
+	
+	Player()
+	{
+		
+	}
+	
+	SDL_Keycode* GetUp() { return &Key_MoveUp; }
+	SDL_Keycode* GetDown() { return &Key_MoveDown; }
+	SDL_Keycode* GetRight() { return &Key_TurnRight; }
+	SDL_Keycode* GetLeft() { return &Key_TurnLeft; }
+	
+	
+	
+	void MoveUp() { up = true; }
+	void MoveDown() { down = true; }
+	void MoveRight() { right = true; }
+	void MoveLeft() { left = true; }
+	
+	void StopUp() { up = false; }
+	void StopDown() { down = false; }
+	void StopRight() { right = false; }
+	void StopLeft() { left = false; }
+	
+	void Update()
+	{
+		if(up)
+		{
+			y -= speed;
+		}
+		
+		if(down)
+		{
+			y += speed;
+		}
+		
+		if(right)
+		{
+			x += speed;
+		}
+		
+		if(left)
+		{
+			x -= speed;
+		}
+	}
+	
+	SDL_Rect* GetRect()
+	{
+		rect.x = x;
+		rect.y = y;
+		
+		rect.w = w;
+		rect.h = h;
+		
+		return &rect;
+	}
+	
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
