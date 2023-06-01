@@ -76,16 +76,15 @@ void Application::handleEvents()
 void Application::process()
 {
 	playerController.update();
+	
+	enemyController.updateEnemy();
 
 	for (Bullet* bullet : bullets)
 	{
 		bullet->update();
 	}
 
-	collisionController.checkPlayerWithWallCollision();
-	collisionController.checkPlayerWithBulletCollision();
-	collisionController.checkBulletWithWallCollision();
-
+	collisionController.update();
 
 	for(int i = 0; i < bullets.size(); i++)
 	{
@@ -133,6 +132,13 @@ void Application::drawObjects()
 	{
 		SDL_RenderCopyEx(renderer, playerTexture, NULL, player.getRect(), player.getDirection() + 90, NULL, SDL_FLIP_HORIZONTAL);
 	}
+
+	// draw enemy
+	if (enemy.isAlive())
+	{
+		SDL_RenderCopyEx(renderer, enemyTexture, NULL, enemy.getRect(), enemy.getDirection() + 90, NULL, SDL_FLIP_HORIZONTAL);
+	}
+
 }
 
 void Application::updateScreen()
