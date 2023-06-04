@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include <vector>
 #include "Player.h"
+#include "Enemy.h"
 #include "Bullet.h"
 #include "Wall.h"
 #include "Vector3.h"
@@ -17,15 +18,20 @@ class CollisionController
 {
 protected:
 	Player* player;
+	Enemy* enemy;
 	std::vector<Bullet*>* bullets;
 	std::vector<Wall*>* walls;
 
 public:
-	CollisionController(Player* player, std::vector<Bullet*>* bullets, std::vector<Wall*>* walls) : player(player), bullets(bullets), walls(walls) {}
+	CollisionController(Player* player, Enemy* enemy, std::vector<Bullet*>* bullets, std::vector<Wall*>* walls) : player(player), enemy(enemy) ,bullets(bullets), walls(walls) {}
 
+	void update();
+
+protected:
 	void checkPlayerWithWallCollision();
 	void checkPlayerWithBulletCollision();
 	void checkBulletWithWallCollision();
+	void checkEnemyWithBulletCollision();
 
 	bool areColliding(SDL_Rect* obj1, SDL_Rect* obj2);
 

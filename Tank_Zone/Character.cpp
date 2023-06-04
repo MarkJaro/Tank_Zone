@@ -110,3 +110,10 @@ void Character::shot(std::vector<Bullet*>* bullets)
 	bullets->push_back(new Bullet(body.position.x, body.position.y, rotate));
 	startCooldown = SDL_GetTicks();
 }
+
+
+
+void Character::setCooldown(float cooldown)
+{
+	this->shootCooldown = cooldown;
+}

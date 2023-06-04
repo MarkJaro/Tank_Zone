@@ -77,9 +77,10 @@ public:
 	bool isAlive();
 	void kill();
 
-	void shoot(std::vector<Bullet*>* bullets);
+	virtual void shoot(std::vector<Bullet*>* bullets);
 protected:
 	void shot(std::vector<Bullet*>* bullets);
+	void setCooldown(float cooldown);
 };
 
 #endif

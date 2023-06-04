@@ -1,33 +1,41 @@
 #include "CollisionController.h"
 
+void CollisionController::update()
+{
+	checkPlayerWithWallCollision();
+	checkEnemyWithBulletCollision();
+	checkPlayerWithBulletCollision();
+	checkBulletWithWallCollision();
+}
 
 void CollisionController::checkPlayerWithWallCollision()
 {
-	for (Wall* wall : *walls)
+	if (player->isAlive())
 	{
-		bool PlayerCollidingWithWall = areColliding(player->getHeatbox(), wall->getRect());
-		if (PlayerCollidingWithWall)
+		for (Wall* wall : *walls)
 		{
-			SDL_Rect wallRect = *wall->getRect();
-
-			//Vector3 w = { (float)(wallRect.x + wallRect.w / 2), (float)(wallRect.y + wallRect.w / 2), 0 };
-			//Vector3 position = { player->getX(), player->getY(), 0 };
-			//Vector3 force = position - w;
-			//Vector3 g = { 0, -0.1, 0 };
-			Vector3 force = wall->getDirection();
-			force.normilize();
-			player->push(force);
+			bool PlayerCollidingWithWall = areColliding(player->getHeatbox(), wall->getRect());
+			if (PlayerCollidingWithWall)
+			{
+				SDL_Rect wallRect = *wall->getRect();
+				Vector3 force = wall->getDirection();
+				force.normilize();
+				player->push(force);
+			}
 		}
 	}
 }
 void CollisionController::checkPlayerWithBulletCollision()
 {
-	for (Bullet* bullet : *bullets)
+	if (player->isAlive())
 	{
-		bool PlayerCollidingWithBullet = areColliding(player->getHeatbox(), bullet->getRect());
-		if (PlayerCollidingWithBullet)
+		for (Bullet* bullet : *bullets)
 		{
-			player->kill();
+			bool PlayerCollidingWithBullet = areColliding(player->getHeatbox(), bullet->getRect());
+			if (PlayerCollidingWithBullet)
+			{
+				player->kill();
+			}
 		}
 	}
 }
@@ -42,17 +50,28 @@ void CollisionController::checkBulletWithWallCollision()
 			bool BulletCollidingWithWall = areColliding(bullet->getRect(), wall->getRect());
 			if (BulletCollidingWithWall)
 			{
-				//bullet->changeDirection(wall->getId());
-				//Vector3 force = position - w;
-				//Vector3 g = { 0, -0.1, 0 };
 				Vector3 force = wall->getDirection();
 				force.normilize();
 				force.normilize();
 				bullet->push(force);
 			}
 		}
+	}	
+}
+
+void CollisionController::checkEnemyWithBulletCollision()
+{
+	if (enemy->isAlive())
+	{
+		for (Bullet* bullet : *bullets)
+		{
+			bool PlayerCollidingWithBullet = areColliding(enemy->getHeatbox(), bullet->getRect());
+			if (PlayerCollidingWithBullet)
+			{
+				enemy->kill();
+			}
+		}
 	}
-	
 }
 
 bool CollisionController::areColliding(SDL_Rect* obj1, SDL_Rect* obj2)
